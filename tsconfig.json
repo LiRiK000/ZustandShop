@@ -29,7 +29,7 @@
       "@theme/*": [
         "src/core/theme/*"
       ],
-      "@types/*": [
+      "@MyTypes/*": [
         "src/core/types/*"
       ],
       //! Components !//
