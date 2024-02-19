@@ -1,0 +1,82 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    // For aliases
+    "baseUrl": ".",
+    "paths": {
+      //! Core !//
+      "@hooks/*": [
+        "src/core/hooks/*"
+      ],
+      "@store/*": [
+        "src/core/store/*"
+      ],
+      "@theme/*": [
+        "src/core/theme/*"
+      ],
+      "@types/*": [
+        "src/core/types/*"
+      ],
+      //! Components !//
+      "@layout/*": [
+        "src/components/layout/*"
+      ],
+      "@utility/*": [
+        "src/components/utility/*"
+      ],
+      "@simple/*": [
+        "src/components/UI/simple/*"
+      ],
+      "@independent/*": [
+        "src/components/UI/independent/*"
+      ],
+      "@features/*": [
+        "src/components/UI/features/*"
+      ],
+      //! Fake DB !//
+      "@db/*": [
+        "src/db/*"
+      ],
+      //! Pages !//
+      "@pages/*": [
+        "src/pages/*"
+      ],
+      //! Routes !//
+      "@routes/*": [
+        "src/routes/*"
+      ],
+      //! Tempalates (container) !//
+      "@templates/*": [
+        "src/templates/*"
+      ],
+    },
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
