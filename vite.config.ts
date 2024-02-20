@@ -6,10 +6,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@hooks': path.resolve('src/core/hooks'),
-      '@store': path.resolve('src/store'),
-      '@theme': path.resolve('src/theme'),
-      '@types': path.resolve('src/types'),
-
+      '@Store': path.resolve('src/core/store'),
+      '@theme': path.resolve('src/core/theme'),
+      '@MyTypes': path.resolve('src/core/types'),
       //!
       '@layout': path.resolve('src/components/layout'),
       '@utility': path.resolve('src/components/utility'),

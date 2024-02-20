@@ -1,8 +1,8 @@
+import { MyRoutes } from "@routes/routes"
 
 function App() {
   return (
-    <>
-    </>
+    <MyRoutes />
   )
 }
 

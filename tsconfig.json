@@ -17,19 +17,19 @@
     "noEmit": true,
     "jsx": "react-jsx",
     // For aliases
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       //! Core !//
       "@hooks/*": [
         "src/core/hooks/*"
       ],
-      "@store/*": [
+      "@Store/*": [
         "src/core/store/*"
       ],
       "@theme/*": [
         "src/core/theme/*"
       ],
-      "@types/*": [
+      "@MyTypes/*": [
         "src/core/types/*"
       ],
       //! Components !//
