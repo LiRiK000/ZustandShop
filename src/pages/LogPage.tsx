@@ -1,5 +1,5 @@
-import { LogTemp } from "@templates/LogTemp/LogTemp";
+import { LogTemp } from '@templates/LogTemp/LogTemp';
 
 export const LogPage = () => {
-  return <LogTemp />;
+	return <LogTemp />;
 };
