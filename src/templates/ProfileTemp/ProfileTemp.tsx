@@ -1,4 +1,5 @@
 import { ContextMenu } from '@layout/Menu/MenuContext/MenuContext';
+import { Profile } from '@independent/UserProfile/UserProfile';
 import { useUsersStore } from '@Store/useUserStore';
 
 export const ProfileTemp = () => {
@@ -7,6 +8,7 @@ export const ProfileTemp = () => {
 	return (
 		<>
 			<ContextMenu isAuthenticated={isLoggedIn} />
+			<Profile />
 		</>
 	);
 };
