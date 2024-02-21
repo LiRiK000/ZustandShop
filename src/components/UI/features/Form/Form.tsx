@@ -24,10 +24,10 @@ const FeatureForm: FC<IFormProps> = ({ isReg }) => {
 		getValues,
 	} = useForm();
 
-	const { users, registrationUser, loginUser } = useUsersStore();
 	const toast = useToast();
-
+	const { users, registrationUser, loginUser } = useUsersStore();
 	const onSubmit = (data: any) => {
+		console.log('rerendered');
 		if (!isReg && (errors.email || errors.password)) return;
 		if (
 			isReg &&
@@ -146,10 +146,11 @@ const FeatureForm: FC<IFormProps> = ({ isReg }) => {
 			)}
 			<Box display='flex' justifyContent='center'>
 				<Button
-					colorScheme='blue'
+					colorScheme='purple'
 					mt='4'
 					w='lg'
-					onClick={handleSubmit(onSubmit)}>
+					onClick={handleSubmit(onSubmit)}
+				>
 					Submit
 				</Button>
 			</Box>

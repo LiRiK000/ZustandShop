@@ -1,5 +1,5 @@
-import { Blog } from '@features/Blog/Blog';
 import { ContextMenu } from '@layout/Menu/MenuContext/MenuContext';
+import { Shop } from '@independent/Shop/shop';
 import { useUsersStore } from '@Store/useUserStore';
 
 export const MainTemp = () => {
@@ -9,7 +9,7 @@ export const MainTemp = () => {
 	return (
 		<>
 			<ContextMenu isAuthenticated={isLoggedIn} />
-			<Blog />
+			<Shop />
 		</>
 	);
 };

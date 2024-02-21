@@ -5,11 +5,12 @@ import {
 	Flex,
 	HStack,
 	Heading,
-	Spacer,
 	Text,
+	useBreakpointValue,
+	useDisclosure,
 } from '@chakra-ui/react';
-import { FC, useState } from 'react';
 
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '@Store/useCartStore';
 
@@ -19,10 +20,16 @@ interface ContextMenuProps {
 
 export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 	const { cartItems, increaseQuantity, decreaseQuantity } = useCartStore();
-	const [isCartOpen, setIsCartOpen] = useState(false);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+
+	const isMobile = useBreakpointValue({ base: true, sm: false });
 
 	const toggleCart = () => {
-		setIsCartOpen((prev) => !prev);
+		isOpen ? onClose() : onOpen();
+	};
+
+	const handleBurgerMenuClick = () => {
+		onOpen();
 	};
 
 	return (
@@ -35,33 +42,59 @@ export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 			position='relative'
 			zIndex='10'
 			boxShadow='md'
+			flexDirection={isMobile ? 'column' : 'row'}
 		>
-			<Box>
+			<Box mb={isMobile ? '4' : '0'}>
 				<Link to='/'>
 					<Heading as='h1' size='xl' fontWeight='semi' textDecoration='none'>
 						Home
 					</Heading>
 				</Link>
 			</Box>
-			<Spacer />
+			{!isMobile && <Box flex='1' />}
 			<Box>
 				{isAuthenticated ? (
-					<HStack p='4'>
+					<HStack spacing={isMobile ? '4' : '0'}>
 						<Box
 							cursor='pointer'
 							display='inline-flex'
 							alignItems='center'
 							onClick={toggleCart}
 						>
-							<AiOutlineShoppingCart size={34} />
-							<Text ml='1' fontSize='lg'>
+							<AiOutlineShoppingCart size={isMobile ? 28 : 34} />{' '}
+							<Text ml='1' fontSize={isMobile ? 'md' : 'lg'}>
 								{cartItems.reduce(
 									(totalQuantity, item) => totalQuantity + item.quantity,
 									0,
 								)}
 							</Text>
 						</Box>
-						{isCartOpen && (
+						{isMobile && (
+							<Box
+								position='absolute'
+								top='0'
+								right='0'
+								onClick={handleBurgerMenuClick}
+								cursor='pointer'
+								p='4'
+							>
+								<svg
+									xmlns='http://www.w3.org/2000/svg'
+									fill='none'
+									viewBox='0 0 24 24'
+									stroke='currentColor'
+									className='w-6 h-6'
+								>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										strokeWidth='2'
+										d='M4 6h16M4 12h16m-7 6h7'
+									/>
+								</svg>
+							</Box>
+						)}
+						{isMobile && isOpen && (
 							<Box
 								position='absolute'
 								top='100%'
@@ -83,10 +116,13 @@ export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 												justify='space-between'
 											>
 												<Box mb='2'>
-													<Text fontSize='lg' fontWeight='bold'>
+													<Text
+														fontSize={isMobile ? 'md' : 'lg'}
+														fontWeight='bold'
+													>
 														{item.name}
 													</Text>
-													<Text fontSize='md'>
+													<Text fontSize={isMobile ? 'sm' : 'md'}>
 														Price: ${item.price.toFixed(2)}
 													</Text>
 												</Box>
@@ -98,7 +134,10 @@ export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 													>
 														-
 													</Button>
-													<Text fontSize='lg' fontWeight='bold'>
+													<Text
+														fontSize={isMobile ? 'md' : 'lg'}
+														fontWeight='bold'
+													>
 														{item.quantity}
 													</Text>
 													<Button
@@ -127,11 +166,11 @@ export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 							</Box>
 						)}
 						<Link to='/profile'>
-							<AiOutlineUser size={34} color='white' />
+							<AiOutlineUser size={isMobile ? 28 : 34} color='white' />{' '}
 						</Link>
 					</HStack>
 				) : (
-					<HStack p='4'>
+					<HStack spacing={isMobile ? '4' : '0'}>
 						<Link to='/login'>
 							<Heading
 								as='h2'

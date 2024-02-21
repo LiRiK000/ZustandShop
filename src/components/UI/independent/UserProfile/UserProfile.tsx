@@ -7,8 +7,10 @@ export const Profile = () => {
 		state.users.find((u) => u.isLoggedIn === true),
 	);
 
+	const { logoutUser } = useUsersStore();
+
 	const handleLogout = () => {
-		// Реализация вашей функции logout
+		logoutUser();
 	};
 
 	if (!currentUser) return null;
