@@ -114,7 +114,7 @@ export const ContextMenu = ({ isAuthenticated }: ContextMenuProps) => {
                       </Flex>
                     ))}
                     <Box mt="2" w="100%">
-                      <Link to="/buy">
+                      <Link to="/cart">
                         <Button colorScheme="purple" size="md" w="100%">
                           Оформить заказ
                         </Button>

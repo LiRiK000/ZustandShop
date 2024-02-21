@@ -12,7 +12,7 @@ export const useUsersStore = create<useUserStoreType>()(
         users: [],
         registrationUser: (email, username, password, id) => {
           const { users } = get();
-          const userExists = users.some((user) => user.id === id);
+          const userExists = users.some((user) => user.email === email);
           if (userExists) {
             return;
           }

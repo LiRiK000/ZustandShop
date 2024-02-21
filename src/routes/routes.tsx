@@ -2,14 +2,19 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 import { LogPage } from "@pages/LogPage";
 import { MainPage } from "@pages/MainPage";
+import { RegPage } from "@pages/RegPage";
 
 export const MyRoutes = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/reg" element={<MainPage />} />
+        <Route path="/reg" element={<RegPage />} />
         <Route path="/login" element={<LogPage />} />
+        {/* //TODO */}
+        <Route path="/cart" element={<MainPage />} />
+        <Route path="/profile" element={<MainPage />} />
+        <Route path="*" element={<MainPage />} />
         {/*
                 <Route path="/about" element={<About />} />
                 <Route path="/shop" element={<Shop />} />

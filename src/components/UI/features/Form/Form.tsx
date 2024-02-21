@@ -36,6 +36,7 @@ const FeatureForm: FC<IFormProps> = ({ isReg }) => {
     )
       return;
     data.userID = users.length;
+    console.table(data);
     if (isReg) {
       registrationUser(data.email, data.username, data.password, data.userID);
     } else {
