@@ -1,4 +1,4 @@
-import { Box, Button, Image, Text } from '@chakra-ui/react';
+import { Box, Button, Text } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { FC } from 'react';
@@ -6,13 +6,7 @@ import { IShopItem } from '@MyTypes/ComponentsTypes/ShopItemType';
 import { useCartStore } from '@Store/useCartStore';
 import { useUsersStore } from '@Store/useUserStore';
 
-export const ShopItem: FC<IShopItem> = ({
-	id,
-	title,
-	description,
-	price,
-	imageUrl,
-}) => {
+export const ShopItem: FC<IShopItem> = ({ id, title, description, price }) => {
 	const { addToCart } = useCartStore();
 	const Item = {
 		id: id,
@@ -40,7 +34,6 @@ export const ShopItem: FC<IShopItem> = ({
 			boxShadow='md'
 		>
 			<Link to={`/game/${id}`}>
-				{imageUrl && <Image src={imageUrl} alt={title} />}
 				<Box p='6'>
 					<Box display='flex' alignItems='baseline'>
 						<Text fontWeight='semibold' fontSize='lg' mr='2'>
