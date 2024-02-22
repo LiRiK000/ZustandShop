@@ -3,14 +3,13 @@ import {
 	Box,
 	Button,
 	Flex,
-	HStack,
 	Heading,
+	Spacer,
+	Stack,
 	Text,
-	useBreakpointValue,
-	useDisclosure,
 } from '@chakra-ui/react';
+import { FC, useState } from 'react';
 
-import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '@Store/useCartStore';
 
@@ -19,82 +18,54 @@ interface ContextMenuProps {
 }
 
 export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
-	const { cartItems, increaseQuantity, decreaseQuantity } = useCartStore();
-	const { isOpen, onOpen, onClose } = useDisclosure();
-
-	const isMobile = useBreakpointValue({ base: true, sm: false });
+	const { cartItems, increaseQuantity, decreaseQuantity, deleteAll } =
+		useCartStore();
+	const [isCartOpen, setIsCartOpen] = useState(false);
 
 	const toggleCart = () => {
-		isOpen ? onClose() : onOpen();
-	};
-
-	const handleBurgerMenuClick = () => {
-		onOpen();
+		setIsCartOpen((prev) => !prev);
 	};
 
 	return (
 		<Flex
 			bg='purple.800'
 			p='4'
-			color='#EEE'
+			color='white'
 			alignItems='center'
 			justifyContent='space-between'
 			position='relative'
-			zIndex='10'
 			boxShadow='md'
-			flexDirection={isMobile ? 'column' : 'row'}
+			zIndex='10'
 		>
-			<Box mb={isMobile ? '4' : '0'}>
+			<Box m='4'>
 				<Link to='/'>
-					<Heading as='h1' size='xl' fontWeight='semi' textDecoration='none'>
+					<Heading as='h1' size='xl' fontWeight='semi'>
 						Home
 					</Heading>
 				</Link>
 			</Box>
-			{!isMobile && <Box flex='1' />}
-			<Box>
+			<Spacer />
+			<Box m='4'>
 				{isAuthenticated ? (
-					<HStack spacing={isMobile ? '4' : '0'}>
+					<Stack direction={['column', 'column', 'row']} alignItems='center'>
 						<Box
 							cursor='pointer'
 							display='inline-flex'
 							alignItems='center'
 							onClick={toggleCart}
 						>
-							<AiOutlineShoppingCart size={isMobile ? 28 : 34} />{' '}
-							<Text ml='1' fontSize={isMobile ? 'md' : 'lg'}>
+							<AiOutlineShoppingCart size={34} />
+							<Text ml='1' fontSize='lg'>
 								{cartItems.reduce(
 									(totalQuantity, item) => totalQuantity + item.quantity,
 									0,
 								)}
 							</Text>
 						</Box>
-						{isMobile && (
-							<Box
-								position='absolute'
-								top='0'
-								right='0'
-								onClick={handleBurgerMenuClick}
-								cursor='pointer'
-								p='4'
-							>
-								<svg
-									xmlns='http://www.w3.org/2000/svg'
-									fill='none'
-									viewBox='0 0 24 24'
-									stroke='currentColor'
-									className='w-6 h-6'
-								>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth='2'
-										d='M4 6h16M4 12h16m-7 6h7'
-									/>
-								</svg>
-							</Box>
-						)}
-						{isMobile && isOpen && (
+						<Link to='/profile'>
+							<AiOutlineUser size={34} />
+						</Link>
+						{isCartOpen && (
 							<Box
 								position='absolute'
 								top='100%'
@@ -104,52 +75,60 @@ export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 								boxShadow='lg'
 								borderRadius='md'
 								p='4'
-								w='15vw'
 								minW='200px'
+								w={['100%', '100%', '100%', '25vw']}
 							>
+								<Heading as='h2' size='md' mb='4'>
+									Корзина
+								</Heading>
 								{cartItems.length > 0 ? (
 									<>
 										{cartItems.map((item) => (
 											<Flex
 												key={item.id}
 												alignItems='center'
-												justify='space-between'
+												justifyContent='space-between'
+												p='4'
 											>
-												<Box mb='2'>
-													<Text
-														fontSize={isMobile ? 'md' : 'lg'}
-														fontWeight='bold'
-													>
+												<Box>
+													<Text fontSize='lg' fontWeight='bold'>
 														{item.name}
 													</Text>
-													<Text fontSize={isMobile ? 'sm' : 'md'}>
+													<Text fontSize='md'>
 														Price: ${item.price.toFixed(2)}
 													</Text>
 												</Box>
-												<HStack spacing='4'>
+												<Flex alignItems='center' m='4'>
 													<Button
 														onClick={() => decreaseQuantity(item.id)}
-														colorScheme='red'
+														colorScheme='green'
 														size='sm'
 													>
 														-
 													</Button>
-													<Text
-														fontSize={isMobile ? 'md' : 'lg'}
-														fontWeight='bold'
-													>
+													<Text fontSize='lg' fontWeight='bold' mx='2'>
 														{item.quantity}
 													</Text>
 													<Button
 														onClick={() => increaseQuantity(item.id)}
-														colorScheme='red'
+														colorScheme='green'
 														size='sm'
 													>
 														+
 													</Button>
-												</HStack>
+												</Flex>
 											</Flex>
 										))}
+										<Box mt='2' w='100%'>
+											<Button
+												onClick={deleteAll}
+												colorScheme='red'
+												size='md'
+												w='100%'
+											>
+												Очистить корзину
+											</Button>
+										</Box>
 										<Box mt='2' w='100%'>
 											<Link to='/cart'>
 												<Button colorScheme='purple' size='md' w='100%'>
@@ -165,34 +144,20 @@ export const ContextMenu: FC<ContextMenuProps> = ({ isAuthenticated }) => {
 								)}
 							</Box>
 						)}
-						<Link to='/profile'>
-							<AiOutlineUser size={isMobile ? 28 : 34} color='white' />{' '}
-						</Link>
-					</HStack>
+					</Stack>
 				) : (
-					<HStack spacing={isMobile ? '4' : '0'}>
+					<Stack direction={['column', 'column', 'row']}>
 						<Link to='/login'>
-							<Heading
-								as='h2'
-								size='lg'
-								fontWeight='semi'
-								textDecoration='none'
-								mr='4'
-							>
+							<Heading as='h2' size='lg' fontWeight='semi' mr='4'>
 								Войти
 							</Heading>
 						</Link>
 						<Link to='/reg'>
-							<Heading
-								as='h2'
-								size='lg'
-								fontWeight='semi'
-								textDecoration='none'
-							>
+							<Heading as='h2' size='lg' fontWeight='semi'>
 								Регистрация
 							</Heading>
 						</Link>
-					</HStack>
+					</Stack>
 				)}
 			</Box>
 		</Flex>

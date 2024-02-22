@@ -28,7 +28,13 @@ export const useUsersStore = create<useUserStoreType>()(
 						users: [...users, newUser],
 					});
 				},
-				loginUser: (email: string, password: string) => {
+				// В файле useUserStore.ts
+
+				loginUser: (
+					email: string,
+					password: string,
+					onLoginSuccess: () => void,
+				) => {
 					const { users } = get();
 					const user = users.find((user) => user.email === email);
 					if (!user) {
@@ -50,7 +56,10 @@ export const useUsersStore = create<useUserStoreType>()(
 							set({
 								users: updatedUsers,
 							});
+							onLoginSuccess();
 						}
+					} else {
+						console.error('Incorrect email or password');
 					}
 				},
 				logoutUser: () => {

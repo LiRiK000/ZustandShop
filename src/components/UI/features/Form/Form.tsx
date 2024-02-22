@@ -4,12 +4,14 @@ import {
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
+	Heading,
 	Input,
 	useToast,
 } from '@chakra-ui/react';
 
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useUsersStore } from '@Store/useUserStore';
 
 interface IFormProps {
@@ -23,6 +25,7 @@ const FeatureForm: FC<IFormProps> = ({ isReg }) => {
 		formState: { errors },
 		getValues,
 	} = useForm();
+	const navigate = useNavigate();
 
 	const toast = useToast();
 	const { users, registrationUser, loginUser } = useUsersStore();
@@ -43,18 +46,34 @@ const FeatureForm: FC<IFormProps> = ({ isReg }) => {
 			toast({
 				title: 'Registration Successful',
 				status: 'success',
+				duration: 3000,
+				isClosable: true,
+			});
+			navigate('/login');
+		} else if (!isReg) {
+			loginUser(data.email, data.password, () => {
+				toast({
+					title: 'Login Successful',
+					status: 'success',
+					duration: 3000,
+					isClosable: true,
+				});
 			});
 		} else {
-			loginUser(data.email, data.password);
 			toast({
-				title: 'Login Successful',
-				status: 'success',
+				title: 'Something went wrong',
+				status: 'error',
+				duration: 3000,
+				isClosable: true,
 			});
 		}
 	};
 
 	return (
 		<Box maxW='lg' mx='auto' mt='8' bgColor='#EEEFFF' p='8' borderRadius='30px'>
+			<Box display='flex' justifyContent='center'>
+				<Heading>{isReg ? 'Registration' : 'Login'}</Heading>
+			</Box>
 			{isReg && (
 				<FormControl mt='4' isInvalid={!!errors.username}>
 					<FormLabel>Username</FormLabel>
@@ -90,7 +109,10 @@ const FeatureForm: FC<IFormProps> = ({ isReg }) => {
 					_hover={{}}
 					{...register('email', {
 						required: 'Email is required',
-						pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' },
+						pattern: {
+							value: /^\S+@\S+$/i,
+							message: 'Invalid email address',
+						},
 					})}
 				/>
 				<FormErrorMessage>

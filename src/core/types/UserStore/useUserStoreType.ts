@@ -8,7 +8,11 @@ export type useUserStoreType = {
 		password: string,
 		id: number,
 	) => void;
-	loginUser: (email: string, password: string) => void;
+	loginUser: (
+		email: string,
+		password: string,
+		onLoginSuccess: () => void,
+	) => void;
 	logoutUser: () => void;
 	removeAllUsers: () => void;
 };
